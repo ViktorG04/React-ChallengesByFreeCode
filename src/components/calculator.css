@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 600px;
+}
+
+.body {
+  background: black;
+  padding: 20px 0;
+  margin-top: 40px;
+  width: 350px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.result {
+  min-height: 20px;
+  font-family: digital;
+  font-size: 20px;
+  color: orange;
+  text-align: right;
+  vertical-align: text-top;
+  line-height: 20px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.output {
+  font-size: 29px;
+  font-family: digital;
+  color: white;
+  text-align: right;
+  line-height: 35px;
+}
+
+.body-container {
+  background: none;
+  display: flex;
+}
+
+.numbers {
+  background: none;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: auto;
+}
+
+.operations {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/* * {
+  color: white;
+  font-size: 18px;
+} */
+
+.number,
+.decimal {
+  width: 85px;
+  height: 85px;
+  background: #4d4d4d;
+  margin: 1px;
+}
+
+.clear,
+.zero {
+  width: 173px;
+  height: 85px;
+  background: red;
+}
+
+.zero {
+  background: #4d4d4d;
+}
+
+.multiplication,
+.rest,
+.sum,
+.divide {
+  background: gray;
+  width: 85px;
+  height: 85px;
+}
+
+.equals {
+  background: rgb(0, 68, 102);
+  height: 173px;
+}
