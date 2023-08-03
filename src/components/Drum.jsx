@@ -77,10 +77,58 @@ const DrumContext = createContext();
 
 export const DrumProvider = ({ children }) => {
   const [drum, setDrum] = useState({ sound: "", power: true });
+  const audioRef = useRef(null);
+
   return (
-    <DrumContext.Provider value={{ drum, setDrum }}>
+    <DrumContext.Provider value={{ audioRef, drum, setDrum }}>
       {children}
+      <audio ref={audioRef}></audio>
     </DrumContext.Provider>
+  );
+};
+
+const Button = ({ sound, bank }) => {
+  const { audioRef, drum, setDrum } = useContext(DrumContext);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    const onHandleKeyPress = (e) => {
+      if (sound.name === e.key.toUpperCase()) {
+        buttonRef.current.click();
+      }
+    };
+
+    document.addEventListener("keydown", onHandleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", onHandleKeyPress);
+    };
+  }, []);
+
+  function onHandleClick() {
+    if (!drum.power) {
+      return;
+    }
+    setIsButtonClicked(true);
+    setTimeout(() => {
+      setIsButtonClicked(false);
+    }, 500);
+    audioRef.current.src = bank ? sound.link2 : sound.link1;
+    audioRef.current.play();
+    setDrum({ ...drum, sound: bank ? sound.sound2 : sound.sound1 });
+  }
+
+  return (
+    <button
+      type="button"
+      className="drum-pad"
+      /* className={ isButtonClicked ? "clicked" : ""} */
+      onClick={onHandleClick}
+      id={sound.name}
+      ref={buttonRef}
+    >
+      {sound.name}
+    </button>
   );
 };
 
@@ -102,35 +150,24 @@ const Toggle = ({ name, checked, disabled, onHandleChange }) => {
   );
 };
 
-const Button = ({ sound, bank, playSound }) => {
-  const { drum, setDrum } = useContext(DrumContext);
+const VolumeControl = () => {
+  const [volume, setVolume] = useState(30);
+  const { audioRef, drum } = useContext(DrumContext);
 
-  const onHandleClick = () => {
-    if (drum.power) {
-      playSound(bank ? sound.link2 : sound.link1);
-      setDrum({ ...drum, sound: bank ? sound.sound2 : sound.sound1 });
-    }
+  const onHandleVolumeChange = (e) => {
+    setVolume(e.target.value);
+    audioRef.current.volume = e.target.value / 100;
   };
 
   return (
-    <button className="drum-pad" onClick={onHandleClick} id={sound.name}>
-      {sound.name}
-    </button>
-  );
-};
-
-const VolumeControl = ({ volume, onHandleVolumechange }) => {
-  const { drum } = useContext(DrumContext);
-
-  return (
-    <div className="container-controls_volume">
+    <div className="volume-slider">
       <input
         max="100"
         min="0"
         step="0.01"
         type="range"
         value={volume}
-        onChange={onHandleVolumechange}
+        onChange={onHandleVolumeChange}
         disabled={!drum.power}
         title="volume control"
       />
@@ -140,36 +177,8 @@ const VolumeControl = ({ volume, onHandleVolumechange }) => {
 
 const Drum = () => {
   const [bank, setBank] = useState(false); //false-->Heater Kit  true -->Smooth Piano
-  const [volume, setVolume] = useState(30);
 
   const { drum, setDrum } = useContext(DrumContext);
-  const audioRef = useRef(null);
-
-  const playSound = (soundUrl) => {
-    audioRef.current.src = soundUrl;
-    audioRef.current.play();
-  };
-
-  const onHandleVolumechange = (e) => {
-    setVolume(e.target.value);
-    audioRef.current.volume = e.target.value / 100;
-  };
-
-  const onHandleKeyPress = (e) => {
-    const key = e.key.toUpperCase();
-
-    const sound = sounds.filter((sound) => sound.name === key);
-    if (!sound.length) {
-      return;
-    }
-    onHandleClick();
-  };
-
-  useEffect(() => {
-    if (drum.power) {
-      document.addEventListener("keydown", onHandleKeyPress);
-    }
-  }, []);
 
   const onHandleCheckBank = () => {
     setBank((bank) => !bank);
@@ -185,16 +194,11 @@ const Drum = () => {
       <div className="container" id="drum-machine">
         <div className="container_buttons">
           {sounds.map((sound, index) => (
-            <Button
-              key={index}
-              sound={sound}
-              bank={bank}
-              playSound={playSound}
-            />
+            <Button key={index} sound={sound} bank={bank} />
           ))}
         </div>
 
-        <div className="container_controls" id="display">
+        <div className="container_controls">
           <Toggle
             name="Power"
             checked={drum.power}
@@ -203,10 +207,7 @@ const Drum = () => {
           <p className="display" id="display">
             {drum.sound}
           </p>
-          <VolumeControl
-            volume={volume}
-            onHandleVolumechange={onHandleVolumechange}
-          />
+          <VolumeControl />
           <Toggle
             name="Bank"
             checked={bank}
@@ -214,7 +215,6 @@ const Drum = () => {
             onHandleChange={onHandleCheckBank}
           />
         </div>
-        <audio ref={audioRef}></audio>
       </div>
     </div>
   );
