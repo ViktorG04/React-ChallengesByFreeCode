@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { evaluate } from "mathjs";
-
+import Button from "../components/calculator/Button";
 import "./calculator.css";
-
-const Button = ({ className, name, action, id }) => {
-  return (
-    <button className={className} onClick={action} id={id}>
-      {name}
-    </button>
-  );
-};
 
 const symbols = ["+", "-", "*", "/"];
 
@@ -94,8 +86,18 @@ function Calculator() {
 
         <div className="body-container">
           <div className="numbers">
-            <Button id="clear" className="clear" name="AC" action={() => onHandleClear()} />
-            <Button id="divide" className="divide" name="/" action={() => onHandleOperation("/")} />
+            <Button
+              id="clear"
+              className="clear"
+              name="AC"
+              action={() => onHandleClear()}
+            />
+            <Button
+              id="divide"
+              className="divide"
+              name="/"
+              action={() => onHandleOperation("/")}
+            />
             {NUMBERS.map((number, index) => (
               <Button
                 key={`number-${index}`}
@@ -113,9 +115,24 @@ function Calculator() {
               name="x"
               action={() => onHandleOperation("*")}
             />
-            <Button id="subtract" className="rest" name="-" action={() => onHandleOperation("-")} />
-            <Button id="add" className="sum" name="+" action={() => onHandleOperation("+")} />
-            <Button id="equals" className="equals" name="=" action={() => onHandleProcess()} />
+            <Button
+              id="subtract"
+              className="rest"
+              name="-"
+              action={() => onHandleOperation("-")}
+            />
+            <Button
+              id="add"
+              className="sum"
+              name="+"
+              action={() => onHandleOperation("+")}
+            />
+            <Button
+              id="equals"
+              className="equals"
+              name="="
+              action={() => onHandleProcess()}
+            />
           </div>
         </div>
         <Button />
