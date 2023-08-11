@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { DrumContext } from "../../pages/Drum";
+import { DrumContext } from "../../context/DrumContext";
 import "../../pages/drum.css";
 
 const VolumeControl = () => {
   const { drum, setDrum } = useContext(DrumContext);
 
-  const onHandleVolumeChange = (e) => {
+  const onHandleVolumeChange = e => {
     const level = e.target.value;
     setDrum({ ...drum, volume: level });
   };

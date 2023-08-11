@@ -3,7 +3,8 @@ import "./random.css";
 
 const Quotes = [
   {
-    phrase: "Either write something worth reading or do something worth writing",
+    phrase:
+      "Either write something worth reading or do something worth writing",
     author: "Benjamin Franklin",
     background: "rgb(119, 177, 169)",
   },
@@ -19,7 +20,8 @@ const Quotes = [
     background: "rgb(115, 168, 87)",
   },
   {
-    phrase: "I have learned over the years that when one’s mind is made up, this diminishes fear",
+    phrase:
+      "I have learned over the years that when one’s mind is made up, this diminishes fear",
     author: "Rosa Parks",
     background: "rgb(22, 160, 133)",
   },
@@ -29,7 +31,8 @@ const Quotes = [
     background: "rgb(243, 156, 18)",
   },
   {
-    phrase: "The only person you are destined to become is the person you decide to be",
+    phrase:
+      "The only person you are destined to become is the person you decide to be",
     author: "Ralph Waldo Emerson",
     background: "rgb(231, 76, 60)",
   },
@@ -55,7 +58,11 @@ const Random = () => {
         <h1 className="text" id="text" style={{ color: data.background }}>
           {data.phrase}
         </h1>
-        <strong className="author" id="author" style={{ color: data.background }}>
+        <strong
+          className="author"
+          id="author"
+          style={{ color: data.background }}
+        >
           - {data.author}
         </strong>
 

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react";
-import { DrumContext } from "../../pages/Drum";
+import { DrumContext } from "../../context/DrumContext";
 import "../../pages/drum.css";
 
 const Button = ({ sound }) => {
@@ -7,11 +7,12 @@ const Button = ({ sound }) => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const buttonRef = useRef(null);
+  const audioRef = useRef(null);
 
   const soundName = drum.bank ? sound.sound2 : sound.sound1;
 
   useEffect(() => {
-    const onHandleKeyPress = (e) => {
+    const onHandleKeyPress = e => {
       if (sound.name === e.key.toUpperCase()) {
         buttonRef.current.click();
       }
@@ -28,10 +29,8 @@ const Button = ({ sound }) => {
       return;
     }
 
-    const audio = document.getElementById(sound.name);
-    audio.currentTime = 0;
-    audio.volume = drum.volume / 100;
-    audio.play();
+    audioRef.current.volume = drum.volume / 100;
+    audioRef.current.play();
 
     setIsButtonClicked(true);
     setTimeout(() => {
@@ -53,6 +52,7 @@ const Button = ({ sound }) => {
         className="clip"
         id={sound.name}
         src={drum.bank ? sound.link2 : sound.link1}
+        ref={audioRef}
       ></audio>
       {sound.name}
     </button>

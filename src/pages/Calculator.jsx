@@ -23,7 +23,7 @@ function Calculator() {
   const [value, setValue] = useState(0);
   const [accumulator, setAccumulator] = useState("");
 
-  const onHandleCatchValue = (number) => {
+  const onHandleCatchValue = number => {
     if (value === "0") {
       return;
     }
@@ -34,15 +34,15 @@ function Calculator() {
       return;
     }
 
-    setValue((current) => (current === 0 ? number : current + number));
+    setValue(current => (current === 0 ? number : current + number));
 
     if (accumulator === "=NAN") {
       return setAccumulator(number);
     }
-    setAccumulator((acc) => acc + number);
+    setAccumulator(acc => acc + number);
   };
 
-  const onHandleOperation = (symbol) => {
+  const onHandleOperation = symbol => {
     setValue(symbol);
     if (accumulator.includes("=")) {
       const position = accumulator.indexOf("=");
@@ -54,10 +54,10 @@ function Calculator() {
     const isBelongs = validate.test(accumulator);
 
     if (isBelongs) {
-      return setAccumulator((acc) => acc.replace("*-", symbol));
+      return setAccumulator(acc => acc.replace("*-", symbol));
     }
 
-    setAccumulator((acc) => acc + symbol);
+    setAccumulator(acc => acc + symbol);
   };
 
   const onHandleProcess = () => {
@@ -68,7 +68,7 @@ function Calculator() {
     }
 
     setValue(evaluate(accumulator));
-    setAccumulator((acc) => acc + "=" + evaluate(accumulator));
+    setAccumulator(acc => acc + "=" + evaluate(accumulator));
   };
 
   const onHandleClear = () => {

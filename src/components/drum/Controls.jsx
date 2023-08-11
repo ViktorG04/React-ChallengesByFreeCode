@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Toggle from "./Toggle";
 import VolumeControl from "./VolumeControl";
-import { DrumContext } from "../../pages/Drum";
+import { DrumContext } from "../../context/DrumContext";
 import "../../pages/drum.css";
 
 const Controls = () => {
